@@ -38,20 +38,27 @@ const User = {
         });
     },
 
+    // Hàm đăng nhập với so sánh mật khẩu đã mã hóa
     login: (email, password) => {
         return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM user WHERE Email = ?', [email], (err, results) => {
+            db.query('SELECT * FROM user WHERE Email = ?', [email], async (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
                     return reject(new Error('Database error'));
                 }
 
                 const user = results[0];
-                if (!user || password !== user.Password) {
+                if (!user) {
                     return reject(new Error('Invalid email or password'));
                 }
 
-                resolve(user); // Successfully found and authenticated user
+                // So sánh mật khẩu đã mã hóa
+                const isMatch = await bcrypt.compare(password, user.Password);
+                if (!isMatch) {
+                    return reject(new Error('Invalid email or password'));
+                }
+
+                resolve(user); // Trả về người dùng đã đăng nhập thành công
             });
         });
     }
