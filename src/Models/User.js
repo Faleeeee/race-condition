@@ -1,13 +1,23 @@
 const db = require('../config/db');
 
-const User = {
-    findByEmail: (email, callback) => {
-        const sql = 'SELECT * FROM user WHERE email = ?';
-        db.query(sql, [email], (err, result) => {
-            if (err) return callback(err, null);
-            return callback(null, result[0]);
-        })
-    }
-}
+const AuthService = {
+    login: (email, password) => {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT * FROM user WHERE Email = ?', [email], (err, results) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return reject(new Error('Database error'));
+                }
 
-module.exports = User;
+                const user = results[0];
+                if (!user || password !== user.Password) {
+                    return reject(new Error('Invalid email or password'));
+                }
+
+                resolve(user); // Successfully found and authenticated user
+            });
+        });
+    }
+};
+
+module.exports = AuthService;
