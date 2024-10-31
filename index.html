@@ -42,5 +42,55 @@
           });
       });
     </script>
+
+    <!-- JavaScript để gọi API đăng ký -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Đảm bảo form tồn tại trước khi gán sự kiện
+        document
+          .getElementById("home")
+          .addEventListener("submit", async function (event) {
+            if (event.target && event.target.id === "registerForm") {
+              event.preventDefault();
+
+              // Lấy dữ liệu từ form
+              const name = document.getElementById("name").value;
+              const email = document.getElementById("email").value;
+              const password = document.getElementById("password").value;
+              const phone = document.getElementById("phone").value;
+
+              // Gọi API
+              try {
+                const response = await fetch(
+                  "http://localhost:3000/api/auth/register",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name, email, password, phone }),
+                  }
+                );
+
+                if (response.ok) {
+                  const result = await response.json();
+                  alert("Registration successful!");
+                  console.log(result); // Xử lý phản hồi từ server tại đây
+                } else {
+                  const errorData = await response.json();
+                  console.log("Error from server:", errorData);
+                  alert(
+                    "Registration failed: " +
+                      (errorData.message || "Unknown error")
+                  );
+                }
+              } catch (error) {
+                console.error("API call error:", error);
+                alert("An error occurred. Please try again later.");
+              }
+            }
+          });
+      });
+    </script>
   </body>
 </html>
