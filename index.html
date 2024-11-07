@@ -1,96 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Soccer &mdash; Website by Colorlib</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div id="header"></div>
-    <div id="home"></div>
-    <div id="footer"></div>
 
-    <script>
-      function loadHTML(id, url) {
-        fetch(url)
-          .then((response) => response.text())
-          .then((data) => {
-            document.getElementById(id).innerHTML = data;
-          })
-          .catch((error) => console.log("Error loading HTML:", error));
+<head>
+  <title>Soccer &mdash; Website by Colorlib</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div id="header"></div>
+  <div id="home"></div>
+  <div id="footer"></div>
+
+
+
+  <script>
+
+
+    function openModal() {
+      document.getElementById("bookingModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("bookingModal").style.display = "none";
+    }
+
+    function confirmBooking() {
+      const quantity = document.getElementById("ticketQuantity").value;
+      const seatNumber = document.getElementById("seatNumber").value;
+      const ticketPrice = 100000; // Giá vé
+      const totalPrice = ticketPrice * quantity; // Tính tổng giá
+
+      alert(`Bạn đã đặt ${quantity} vé cho ghế số ${seatNumber} với tổng giá ${totalPrice.toLocaleString()} VNĐ!`);
+      closeModal(); // Đóng modal sau khi xác nhận
+    }
+
+    // Thêm sự kiện cho nút "Book Tickets"
+    const bookButtons = document.querySelectorAll('.btn.btn-primary');
+    bookButtons.forEach(button => {
+      button.onclick = openModal;
+    });
+
+
+
+
+    function loadHTML(id, url) {
+      fetch(url)
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById(id).innerHTML = data;
+        })
+        .catch((error) => console.log("Error loading HTML:", error));
+    }
+
+    // Load initial header, home, and footer content
+    loadHTML("header", "partials/header.html");
+    loadHTML("home", "partials/home.html");
+    loadHTML("footer", "partials/footer.html");
+
+    // Thêm sự kiện cho nút "Book Tickets" sau khi nội dung được tải
+    document.getElementById("home").addEventListener("click", function (event) {
+      if (event.target && event.target.classList.contains("btn-primary")) {
+        openModal();
       }
+    });
 
-      // Load initial header, home, and footer content
-      loadHTML("header", "partials/header.html");
-      loadHTML("home", "partials/home.html");
-      loadHTML("footer", "partials/footer.html");
 
-      // Dynamic navigation handler
-      document.addEventListener("DOMContentLoaded", () => {
-        document
-          .getElementById("header")
-          .addEventListener("click", function (event) {
-            if (event.target && event.target.classList.contains("nav-link")) {
-              event.preventDefault();
-              const page = event.target.getAttribute("data-page");
-              loadHTML("home", page);
-            }
-          });
-      });
-    </script>
+    // Dynamic navigation handler
+    document.addEventListener("DOMContentLoaded", () => {
+      document
+        .getElementById("header")
+        .addEventListener("click", function (event) {
+          if (event.target && event.target.classList.contains("nav-link")) {
+            event.preventDefault();
+            const page = event.target.getAttribute("data-page");
+            loadHTML("home", page);
+          }
+        });
+    });
+  </script>
 
-    <!-- JavaScript để gọi API đăng ký -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Đảm bảo form tồn tại trước khi gán sự kiện
-        document
-          .getElementById("home")
-          .addEventListener("submit", async function (event) {
-            if (event.target && event.target.id === "registerForm") {
-              event.preventDefault();
+  <!-- JavaScript để gọi API đăng ký -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Đảm bảo form tồn tại trước khi gán sự kiện
+      document
+        .getElementById("home")
+        .addEventListener("submit", async function (event) {
+          if (event.target && event.target.id === "registerForm") {
+            event.preventDefault();
 
-              // Lấy dữ liệu từ form
-              const name = document.getElementById("name").value;
-              const email = document.getElementById("email").value;
-              const password = document.getElementById("password").value;
-              const phone = document.getElementById("phone").value;
+            // Lấy dữ liệu từ form
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const phone = document.getElementById("phone").value;
 
-              // Gọi API
-              try {
-                const response = await fetch(
-                  "http://localhost:3000/api/auth/register",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ name, email, password, phone }),
-                  }
-                );
-
-                if (response.ok) {
-                  const result = await response.json();
-                  alert("Registration successful!");
-                  console.log(result); // Xử lý phản hồi từ server tại đây
-                } else {
-                  const errorData = await response.json();
-                  console.log("Error from server:", errorData);
-                  alert(
-                    "Registration failed: " +
-                      (errorData.message || "Unknown error")
-                  );
+            // Gọi API
+            try {
+              const response = await fetch(
+                "http://localhost:3000/api/auth/register",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ name, email, password, phone }),
                 }
-              } catch (error) {
-                console.error("API call error:", error);
-                alert("An error occurred. Please try again later.");
+              );
+
+              if (response.ok) {
+                const result = await response.json();
+                alert("Registration successful!");
+                console.log(result); // Xử lý phản hồi từ server tại đây
+              } else {
+                const errorData = await response.json();
+                console.log("Error from server:", errorData);
+                alert(
+                  "Registration failed: " +
+                  (errorData.message || "Unknown error")
+                );
               }
+            } catch (error) {
+              console.error("API call error:", error);
+              alert("An error occurred. Please try again later.");
             }
-          });
-      });
-    </script>
-  </body>
+          }
+        });
+    });
+  </script>
+  
+</body>
+
 </html>
