@@ -122,6 +122,36 @@
         </div>
       </div>
 
+
+      <!-- Booking Modal -->
+      <div id="bookingModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('bookingModal')">&times;</span>
+          <h2>Booking Ticket</h2>
+          <p>Chọn số lượng vé:</p>
+          <input type="number" id="ticketQuantity" value="1" min="1">
+          <p>Chọn ghế (số ghế sẽ được nhập vào đây):</p>
+          <input type="text" id="seatNumber" placeholder="Nhập số ghế">
+          <p>Giá vé: <span id="ticketPrice">100.000 VNĐ</span></p>
+          <button onclick="confirmBooking()">Xác nhận</button>
+        </div>
+      </div>
+
+      <!-- Detail Ticket Modal -->
+      <div id="detailTicketModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('detailTicketModal')">&times;</span>
+          <h2>Chi Tiết Vé</h2>
+          <p><strong>Trận đấu:</strong> <span id="matchTeams">Đội A vs Đội B</span></p>
+          <p><strong>Thời gian:</strong> <span id="matchTime">20:00 - 20/11/2023</span></p>
+          <p><strong>Tổng số chỗ ngồi:</strong> <span id="totalSeats">50,000</span></p>
+          <p><strong>Giá vé 1 người :</strong> <span id="totalSeats">100,000đ</span></p>
+
+          <p><strong>Địa điểm:</strong> <span id="stadiumLocation">Sân vận động Quốc gia</span></p>
+        </div>
+      </div>
+
+      
       <div class="col-lg-6 mb-4">
         <div class="bg-light p-4 rounded">
           <div class="widget-body">
@@ -333,20 +363,4 @@
       </div>
     </div>
   </div>
-</div>
-<div id="bookingModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2>Booking Ticket</h2>
-    <p>Chọn số lượng vé:</p>
-    <input type="number" id="ticketQuantity" value="1" min="1">
-
-    <p>Chọn ghế (số ghế sẽ được nhập vào đây):</p>
-    <input type="text" id="seatNumber" placeholder="Nhập số ghế">
-
-    <p>Giá vé: <span id="ticketPrice">100.000 VNĐ</span></p> <!-- Hiển thị giá vé -->
-
-    <button onclick="confirmBooking()">Xác nhận</button>
-  </div>
-
 </div>

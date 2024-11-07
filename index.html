@@ -15,45 +15,51 @@
 
 
 
-  <script>
+<script>
+  // Mở modal
+  function openModal(modalId) {
+    document.getElementById(modalId).style.display = "block";
+  }
 
+  // Đóng modal
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
+  }
 
-    function openModal() {
-      document.getElementById("bookingModal").style.display = "block";
-    }
+  // Xác nhận đặt vé
+  function confirmBooking() {
+    const quantity = document.getElementById("ticketQuantity").value;
+    const seatNumber = document.getElementById("seatNumber").value;
+    const ticketPrice = 100000; // Giá vé
+    const totalPrice = ticketPrice * quantity; // Tính tổng giá vé
 
-    function closeModal() {
-      document.getElementById("bookingModal").style.display = "none";
-    }
+    alert(`Bạn đã đặt ${quantity} vé cho ghế số ${seatNumber} với tổng giá ${totalPrice.toLocaleString()} VNĐ!`);
+    closeModal("bookingModal"); // Đóng modal sau khi xác nhận
+  }
 
-    function confirmBooking() {
-      const quantity = document.getElementById("ticketQuantity").value;
-      const seatNumber = document.getElementById("seatNumber").value;
-      const ticketPrice = 100000; // Giá vé
-      const totalPrice = ticketPrice * quantity; // Tính tổng giá
+  // Load HTML vào các phần tử header, home, và footer
+  function loadHTML(id, url) {
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById(id).innerHTML = data;
+        addEventListeners(); // Gán sự kiện cho các nút sau khi tải xong
+      })
+      .catch(error => console.log("Error loading HTML:", error));
+  }
 
-      alert(`Bạn đã đặt ${quantity} vé cho ghế số ${seatNumber} với tổng giá ${totalPrice.toLocaleString()} VNĐ!`);
-      closeModal(); // Đóng modal sau khi xác nhận
-    }
-
-    // Thêm sự kiện cho nút "Book Tickets"
-    const bookButtons = document.querySelectorAll('.btn.btn-primary');
-    bookButtons.forEach(button => {
-      button.onclick = openModal;
+  // Gán sự kiện cho các nút trong trang (nút Đặt vé và Chi tiết vé)
+  function addEventListeners() {
+    // Thêm sự kiện cho các nút "Đặt vé"
+    document.querySelectorAll('.btn-primary').forEach(button => {
+      button.onclick = () => openModal("bookingModal");
     });
 
-
-
-
-    function loadHTML(id, url) {
-      fetch(url)
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById(id).innerHTML = data;
-        })
-        .catch((error) => console.log("Error loading HTML:", error));
-    }
-
+    // Thêm sự kiện cho các nút "Xem chi tiết vé"
+    document.querySelectorAll('.btn-secondary').forEach(button => {
+      button.onclick = () => openModal("detailTicketModal");
+    });
+  }
     // Load initial header, home, and footer content
     loadHTML("header", "partials/header.html");
     loadHTML("home", "partials/home.html");
