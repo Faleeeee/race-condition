@@ -1,137 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  
-  
-  <!-- CSS để điều chỉnh style -->
-  <style>
-    .hero {
-      padding: 100px 0;
-      background-position: center;
-      background-size: cover;
-      position: relative;
-    }
-  
-    .login-form {
-      margin-bottom: 35px;
-    }
-  
-    .form-control {
-      background: #cccccc;
-      width: 100%;
-      padding: 15px;
-      border-radius: 30px;
-      border: none;
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-  
-    .btn-primary {
-      background-color:#ee1e46;
-      border: none;
-      padding: 10px 30px;
-      border-radius: 30px;
-      color: #fff;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
-    }
-  
-    .btn-primary:hover {
-      background-color:#ee1e46;
-    }
-  
-    .text-white {
-      color: #fff;
-    }
-  </style>
+<div class="hero overlay" style="background-image: url('images/bg_3.jpg')">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 mx-auto text-center">
+        <h1 class="text-white">Register</h1>
+        <p class="text-white">Please enter your registration details below.</p>
 
-</head>
-<body>
-  <div class="hero overlay" style="background-image: url('images/bg_3.jpg')">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-5 mx-auto text-center">
-          <h1 class="text-white">Register</h1>
-  
-          <!-- Form đăng ký -->
-          <form class="login-form" id="registerForm" method="post">
-            <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="tel"
-                class="form-control"
-                id="phone"
-                placeholder="Phone"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-primary px-5">Register</button>
-          </form>
-        </div>
+        <!-- Form đăng ký -->
+        <form class="register-form" id="registerForm">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Name"
+              id="name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              id="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Password"
+              id="password"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="Phone"
+              id="phone"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary px-5">Register</button>
+        </form>
       </div>
     </div>
   </div>
-  
- 
-<script>
-  document.getElementById("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const phone = document.getElementById("phone").value;
+</div>
 
-      try {
-          const response = await fetch("http://localhost:3000/api/auth/register", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ name: name, email, password, phone })
-          });
+<!-- CSS để điều chỉnh style -->
+<style>
+  .hero {
+    padding: 100px 0;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+  }
 
-          const data = await response.json();
-          if (response.ok) {
-              alert("Đăng ký thành công!");
-          } else {
-              alert("Lỗi: " + data.message);
-          }
-      } catch (error) {
-          console.error("Lỗi khi gửi yêu cầu:", error);
-      }
-  });
-</script>
-  
-</body>
+  .form-control {
+    background: #cccccc;
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
 
-</html>
+  .btn-primary {
+    background-color: #ee1e46;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #ee1e46;
+  }
+
+  .text-white {
+    color: #fff;
+  }
+</style>
