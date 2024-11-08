@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-5 mx-auto text-center">
-        <h1 class="text-white">Matches</h1>
+        <h1 class="text-white">Booking</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta,
           molestias repudiandae pariatur.
@@ -12,39 +12,6 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="d-flex team-vs">
-        <span class="score">4-1</span>
-        <div class="team-1 w-50">
-          <div class="team-details w-100 text-center">
-            <img src="images/logo_1.png" alt="Image" class="img-fluid" />
-            <h3>LA LEGA <span>(win)</span></h3>
-            <ul class="list-unstyled">
-              <li>Anja Landry (7)</li>
-              <li>Eadie Salinas (12)</li>
-              <li>Ashton Allen (10)</li>
-              <li>Baxter Metcalfe (5)</li>
-            </ul>
-          </div>
-        </div>
-        <div class="team-2 w-50">
-          <div class="team-details w-100 text-center">
-            <img src="images/logo_2.png" alt="Image" class="img-fluid" />
-            <h3>JUVENDU <span>(loss)</span></h3>
-            <ul class="list-unstyled">
-              <li>Macauly Green (3)</li>
-              <li>Arham Stark (8)</li>
-              <li>Stephan Murillo (9)</li>
-              <li>Ned Ritter (5)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="site-section bg-dark">
   <div class="container">
@@ -56,9 +23,7 @@
           </div>
           <div class="widget-body mb-3">
             <div class="widget-vs">
-              <div
-                class="d-flex align-items-center justify-content-around justify-content-between w-100"
-              >
+              <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                 <div class="team-1 text-center">
                   <img src="images/logo_1.png" alt="Image" />
                   <h3>Football League</h3>
@@ -96,9 +61,7 @@
         <div class="bg-light p-4 rounded">
           <div class="widget-body">
             <div class="widget-vs">
-              <div
-                class="d-flex align-items-center justify-content-around justify-content-between w-100"
-              >
+              <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                 <div class="team-1 text-center">
                   <img src="images/logo_1.png" alt="Image" />
                   <h3>Football League</h3>
@@ -121,6 +84,8 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
+            <button class="btn btn-primary">Book Tickets</button>
+            <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
       </div>
@@ -128,9 +93,7 @@
         <div class="bg-light p-4 rounded">
           <div class="widget-body">
             <div class="widget-vs">
-              <div
-                class="d-flex align-items-center justify-content-around justify-content-between w-100"
-              >
+              <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                 <div class="team-1 text-center">
                   <img src="images/logo_3.png" alt="Image" />
                   <h3>Football League</h3>
@@ -153,17 +116,47 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
+            <button class="btn btn-primary">Book Tickets</button>
+            <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
       </div>
 
+
+      <!-- Booking Modal -->
+      <div id="bookingModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('bookingModal')">&times;</span>
+          <h2>Booking Ticket</h2>
+          <p>Chọn số lượng vé:</p>
+          <input type="number" id="ticketQuantity" value="1" min="1">
+          <p>Chọn ghế (số ghế sẽ được nhập vào đây):</p>
+          <input type="text" id="seatNumber" placeholder="Nhập số ghế">
+          <p>Giá vé: <span id="ticketPrice">100.000 VNĐ</span></p>
+          <button onclick="confirmBooking()">Xác nhận</button>
+        </div>
+      </div>
+
+      <!-- Detail Ticket Modal -->
+      <div id="detailTicketModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('detailTicketModal')">&times;</span>
+          <h2>Chi Tiết Vé</h2>
+          <p><strong>Trận đấu:</strong> <span id="matchTeams">Đội A vs Đội B</span></p>
+          <p><strong>Thời gian:</strong> <span id="matchTime">20:00 - 20/11/2023</span></p>
+          <p><strong>Tổng số chỗ ngồi:</strong> <span id="totalSeats">50,000</span></p>
+          <p><strong>Giá vé 1 người :</strong> <span id="totalSeats">100,000đ</span></p>
+
+          <p><strong>Địa điểm:</strong> <span id="stadiumLocation">Sân vận động Quốc gia</span></p>
+        </div>
+      </div>
+
+      
       <div class="col-lg-6 mb-4">
         <div class="bg-light p-4 rounded">
           <div class="widget-body">
             <div class="widget-vs">
-              <div
-                class="d-flex align-items-center justify-content-around justify-content-between w-100"
-              >
+              <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                 <div class="team-1 text-center">
                   <img src="images/logo_1.png" alt="Image" />
                   <h3>Football League</h3>
@@ -186,6 +179,8 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
+            <button class="btn btn-primary">Book Tickets</button>
+            <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
       </div>
@@ -193,9 +188,7 @@
         <div class="bg-light p-4 rounded">
           <div class="widget-body">
             <div class="widget-vs">
-              <div
-                class="d-flex align-items-center justify-content-around justify-content-between w-100"
-              >
+              <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                 <div class="team-1 text-center">
                   <img src="images/logo_3.png" alt="Image" />
                   <h3>Football League</h3>
@@ -218,6 +211,8 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
+            <button class="btn btn-primary">Book Tickets</button>
+            <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
       </div>
@@ -233,13 +228,9 @@
       </div>
       <div class="col-6 text-right">
         <div class="custom-nav">
-          <a href="#" class="js-custom-prev-v2"
-            ><span class="icon-keyboard_arrow_left"></span
-          ></a>
+          <a href="#" class="js-custom-prev-v2"><span class="icon-keyboard_arrow_left"></span></a>
           <span></span>
-          <a href="#" class="js-custom-next-v2"
-            ><span class="icon-keyboard_arrow_right"></span
-          ></a>
+          <a href="#" class="js-custom-next-v2"><span class="icon-keyboard_arrow_right"></span></a>
         </div>
       </div>
     </div>
@@ -248,11 +239,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_1.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>
@@ -265,11 +252,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_2.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>
@@ -284,11 +267,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_3.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>
@@ -302,11 +281,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_1.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>
@@ -319,11 +294,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_2.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>
@@ -338,11 +309,7 @@
       <div class="item">
         <div class="video-media">
           <img src="images/img_3.jpg" alt="Image" class="img-fluid" />
-          <a
-            href="https://vimeo.com/139714818"
-            class="d-flex play-button align-items-center"
-            data-fancybox
-          >
+          <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
             <span class="icon mr-3">
               <span class="icon-play"></span>
             </span>

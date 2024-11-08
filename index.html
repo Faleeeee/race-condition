@@ -9,25 +9,72 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <div id="header"></div>
     <div id="home"></div>
     <div id="footer"></div>
 
     <script>
+      // Mở modal
+      function openModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+      }
+
+      // Đóng modal
+      function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+      }
+
+      // Xác nhận đặt vé
+      function confirmBooking() {
+        const quantity = document.getElementById("ticketQuantity").value;
+        const seatNumber = document.getElementById("seatNumber").value;
+        const ticketPrice = 100000; // Giá vé
+        const totalPrice = ticketPrice * quantity; // Tính tổng giá vé
+
+        alert(
+          `Bạn đã đặt ${quantity} vé cho ghế số ${seatNumber} với tổng giá ${totalPrice.toLocaleString()} VNĐ!`
+        );
+        closeModal("bookingModal"); // Đóng modal sau khi xác nhận
+      }
+
+      // Load HTML vào các phần tử header, home, và footer
       function loadHTML(id, url) {
         fetch(url)
           .then((response) => response.text())
           .then((data) => {
             document.getElementById(id).innerHTML = data;
+            addEventListeners(); // Gán sự kiện cho các nút sau khi tải xong
           })
           .catch((error) => console.log("Error loading HTML:", error));
       }
 
+      // Gán sự kiện cho các nút trong trang (nút Đặt vé và Chi tiết vé)
+      function addEventListeners() {
+        // Thêm sự kiện cho các nút "Đặt vé"
+        document.querySelectorAll(".btn-primary").forEach((button) => {
+          button.onclick = () => openModal("bookingModal");
+        });
+
+        // Thêm sự kiện cho các nút "Xem chi tiết vé"
+        document.querySelectorAll(".btn-secondary").forEach((button) => {
+          button.onclick = () => openModal("detailTicketModal");
+        });
+      }
       // Load initial header, home, and footer content
       loadHTML("header", "partials/header.html");
       loadHTML("home", "partials/home.html");
       loadHTML("footer", "partials/footer.html");
+
+      // Thêm sự kiện cho nút "Book Tickets" sau khi nội dung được tải
+      document
+        .getElementById("home")
+        .addEventListener("click", function (event) {
+          if (event.target && event.target.classList.contains("btn-primary")) {
+            openModal();
+          }
+        });
 
       // Dynamic navigation handler
       document.addEventListener("DOMContentLoaded", () => {
@@ -80,42 +127,55 @@
                       (errorData.message || "Unknown error")
                   );
                 }
-              } catch (error) {
-                console.error("API call error:", error);
-                alert("An error occurred. Please try again later.");
-              }
-            }
-
-            if (event.target && event.target.id === "loginForm") {
-              const email = document.getElementById("loginEmail").value;
-              const password = document.getElementById("loginPassword").value;
-
-              try {
-                const response = await fetch(
-                  "http://localhost:3000/api/auth/login",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ email, password }),
-                  }
-                );
 
                 if (response.ok) {
                   const result = await response.json();
-                  alert("Login successful!");
-                  console.log(result);
+                  alert("Registration successful!");
+                  console.log(result); // Xử lý phản hồi từ server tại đây
                 } else {
                   const errorData = await response.json();
                   console.log("Error from server:", errorData);
                   alert(
-                    "Login failed: " + (errorData.message || "Unknown error")
+                    "Registration failed: " +
+                      (errorData.message || "Unknown error")
                   );
                 }
               } catch (error) {
                 console.error("API call error:", error);
                 alert("An error occurred. Please try again later.");
+              }
+
+              if (event.target && event.target.id === "loginForm") {
+                const email = document.getElementById("loginEmail").value;
+                const password = document.getElementById("loginPassword").value;
+
+                try {
+                  const response = await fetch(
+                    "http://localhost:3000/api/auth/login",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ email, password }),
+                    }
+                  );
+
+                  if (response.ok) {
+                    const result = await response.json();
+                    alert("Login successful!");
+                    console.log(result);
+                  } else {
+                    const errorData = await response.json();
+                    console.log("Error from server:", errorData);
+                    alert(
+                      "Login failed: " + (errorData.message || "Unknown error")
+                    );
+                  }
+                } catch (error) {
+                  console.error("API call error:", error);
+                  alert("An error occurred. Please try again later.");
+                }
               }
             }
           });
