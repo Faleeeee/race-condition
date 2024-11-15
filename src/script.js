@@ -1,0 +1,24 @@
+const axios = require('axios')
+async function sendRequest() {
+    const url = 'http://localhost:3000/api/ticket/bookTicket';
+    const data1 = { match_id: 3, user_id: 3 };
+    const data2 = { match_id: 3, user_id: 4 };
+    const data3 = { match_id: 3, user_id: 5 };
+
+    const request = [
+        axios.post(url, data1),
+        axios.post(url, data2),
+        axios.post(url, data3),
+    ]
+
+
+    try {
+        const result = await Promise.all(request);
+        console.log('check')
+        console.log('Results:', result.map(res => res.data));
+    } catch (error) {
+        console.error('Error:', error.response?.data || error.message);
+    }
+}
+
+sendRequest();
