@@ -17,7 +17,7 @@ async function sendRequest() {
         console.log('check')
         console.log('Results:', result.map(res => res.data));
     } catch (error) {
-        console.error('Error:', error.response?.data || error.message);
+        console.error('Error booking ticket-Deadlock found when trying to get lock; try restarting transaction', error.response?.data || error.message);
     }
 }
 
