@@ -9,26 +9,28 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <div id="header"></div>
     <div id="home"></div>
     <div id="footer"></div>
-
     <script>
-      function loadHTML(id, url) {
+      
+     function loadHTML(id, url) {
         fetch(url)
           .then((response) => response.text())
           .then((data) => {
             document.getElementById(id).innerHTML = data;
+            addEventListeners(); // Gán sự kiện cho các nút sau khi tải xong
           })
           .catch((error) => console.log("Error loading HTML:", error));
       }
 
-      // Load initial header, home, and footer content
       loadHTML("header", "partials/header.html");
       loadHTML("home", "partials/home.html");
       loadHTML("footer", "partials/footer.html");
 
+    
       // Dynamic navigation handler
       document.addEventListener("DOMContentLoaded", () => {
         document
@@ -41,25 +43,22 @@
             }
           });
       });
+
     </script>
 
-    <!-- JavaScript để gọi API đăng ký -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Đảm bảo form tồn tại trước khi gán sự kiện
         document
           .getElementById("home")
           .addEventListener("submit", async function (event) {
-            if (event.target && event.target.id === "registerForm") {
-              event.preventDefault();
+            event.preventDefault();
 
-              // Lấy dữ liệu từ form
+            if (event.target && event.target.id === "registerForm") {
               const name = document.getElementById("name").value;
               const email = document.getElementById("email").value;
               const password = document.getElementById("password").value;
               const phone = document.getElementById("phone").value;
 
-              // Gọi API
               try {
                 const response = await fetch(
                   "http://localhost:3000/api/auth/register",
@@ -71,6 +70,19 @@
                     body: JSON.stringify({ name, email, password, phone }),
                   }
                 );
+
+                if (response.ok) {
+                  const result = await response.json();
+                  alert("Registration successful!");
+                  console.log(result);
+                } else {
+                  const errorData = await response.json();
+                  console.log("Error from server:", errorData);
+                  alert(
+                    "Registration failed: " +
+                      (errorData.message || "Unknown error")
+                  );
+                }
 
                 if (response.ok) {
                   const result = await response.json();
@@ -88,13 +100,43 @@
                 console.error("API call error:", error);
                 alert("An error occurred. Please try again later.");
               }
+
+              if (event.target && event.target.id === "loginForm") {
+                const email = document.getElementById("loginEmail").value;
+                const password = document.getElementById("loginPassword").value;
+
+                try {
+                  const response = await fetch(
+                    "http://localhost:3000/api/auth/login",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ email, password }),
+                    }
+                  );
+
+                  if (response.ok) {
+                    const result = await response.json();
+                    alert("Login successful!");
+                    console.log(result);
+                  } else {
+                    const errorData = await response.json();
+                    console.log("Error from server:", errorData);
+                    alert(
+                      "Login failed: " + (errorData.message || "Unknown error")
+                    );
+                  }
+                } catch (error) {
+                  console.error("API call error:", error);
+                  alert("An error occurred. Please try again later.");
+                }
+              }
             }
           });
       });
     </script>
-
-    
-      
-    
+   
   </body>
 </html>
