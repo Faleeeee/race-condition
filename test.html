@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Vé Xem Đá Bóng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .seat-map {
+            display: grid;
+            grid-template-rows: repeat(5, 1fr); /* 5 hàng */
+            gap: 10px;
+        }
+
+        .seat-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 5px;
+            background-color: lightgreen; /* Mặc định ghế trống */
+        }
+
+        .seat.selected {
+            background-color: lightblue;
+        }
+
+        .seat.unavailable {
+            background-color: lightgray;
+            cursor: default;
+        }
+
+        .screen {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .legend .row {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend .seat {
+            margin-right: 5px;
+        }
+
+        .booking-details {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .booking-details h3 {
+            margin-bottom: 10px;
+        }
+
+        .booking-details button {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-8, .col-md-4 {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Trận Đấu Sắp Tới</h2>
+                    <p>Chi tiết về trận đấu sắp tới...</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Đặt Vé</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Booking -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">Đặt Vé</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>Chọn Ghế</h2>
+                                <div class="seat-map">
+                                    <div class="screen">Màn Hình</div>
+                                    <div class="seats"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="legend">
+                                    <div class="row"><div class="seat available"></div><span>Ghế trống</span></div>
+                                    <div class="row"><div class="seat selected"></div><span>Ghế đã chọn</span></div>
+                                    <div class="row"><div class="seat unavailable"></div><span>Ghế không có</span></div>
+                                </div>
+                                <div class="booking-details mt-4">
+                                    <h3>Thông tin đặt vé</h3>
+                                    <div class="selected-seats">Ghế đã chọn: <span id="selected-seats"></span></div>
+                                    <div class="total-price">Tổng giá: <span id="total-price">0</span> VND</div>
+                                    <button id="book-button" class="btn btn-primary" disabled>Đặt vé</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const seatsContainer = document.querySelector('.seats');
+        const selectedSeatsEl = document.getElementById('selected-seats');
+        const totalPriceEl = document.getElementById('total-price');
+        const bookButton = document.getElementById('book-button');
+        let selectedSeats = [];
+        let totalPrice = 0;
+
+        const seatData = [
+            { row: 'A', seats: Array(10).fill(1) },
+            { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1] },
+            { row: 'C', seats: Array(10).fill(1) },
+            { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1] },
+            { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1] },
+        ];
+
+        const seatPrice = 100000;
+
+        function createSeatMap() {
+            seatData.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('seat-row');
+                row.seats.forEach((available, index) => {
+                    const seatDiv = document.createElement('div');
+                    seatDiv.classList.add('seat');
+                    seatDiv.classList.add(available ? 'available' : 'unavailable');
+                    seatDiv.dataset.seat = `${row.row}${index + 1}`;
+                    seatDiv.dataset.price = seatPrice;
+                    seatDiv.textContent = seatDiv.dataset.seat;
+                    seatDiv.addEventListener('click', handleSeatClick);
+                    rowDiv.appendChild(seatDiv);
+                });
+                seatsContainer.appendChild(rowDiv);
+            });
+        }
+
+        function handleSeatClick(event) {
+            const seat = event.target;
+            if (seat.classList.contains('unavailable')) return;
+
+            if (seat.classList.contains('selected')) {
+                seat.classList.remove('selected');
+                selectedSeats = selectedSeats.filter(s => s !== seat.dataset.seat);
+                totalPrice -= seatPrice;
+            } else {
+                seat.classList.add('selected');
+                selectedSeats.push(seat.dataset.seat);
+                totalPrice += seatPrice;
+            }
+            updateBookingDetails();
+        }
+
+        function updateBookingDetails() {
+            selectedSeatsEl.textContent = selectedSeats.join(', ');
+            totalPriceEl.textContent = totalPrice;
+            bookButton.disabled = selectedSeats.length === 0;
+        }
+
+        createSeatMap();
+        bookButton.addEventListener('click', () => {
+            if (selectedSeats.length > 0) {
+                alert(`Ghế đã đặt: ${selectedSeats.join(', ')}\nTổng giá: ${totalPrice} VND`);
+                selectedSeats = [];
+                totalPrice = 0;
+                updateBookingDetails();
+                seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
+            } else {
+                alert("Vui lòng chọn ghế!");
+            }
+        });
+    </script>
+</body>
+</html>

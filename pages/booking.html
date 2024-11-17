@@ -88,7 +88,7 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
-            <button class="btn btn-primary">Book Tickets</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
             <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
@@ -122,7 +122,7 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
-            <button class="btn btn-primary">Book Tickets</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
             <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
@@ -157,7 +157,7 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
-            <button class="btn btn-primary">Book Tickets</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
             <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
@@ -191,7 +191,7 @@
               <span class="d-block">9:30 AM GMT+0</span>
               <strong class="text-primary">New Euro Arena</strong>
             </p>
-            <button class="btn btn-primary">Book Tickets</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
             <button class="btn btn-secondary">View Details</button>
           </div>
         </div>
@@ -372,3 +372,84 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="bookingModalLabel">Đặt Vé</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-8">
+                          <h2>Chọn Ghế</h2>
+                          <div class="seat-map">
+                              <div class="screen">Màn Hình</div>
+                              <div class="seats"></div>
+                          </div>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="legend">
+                              <div class="row"><div class="seat available"></div><span>Ghế trống</span></div>
+                              <div class="row"><div class="seat selected"></div><span>Ghế đã chọn</span></div>
+                              <div class="row"><div class="seat unavailable"></div><span>Ghế không có</span></div>
+                          </div>
+                          <div class="booking-details mt-4">
+                              <h3>Thông tin đặt vé</h3>
+                              <div class="selected-seats">Ghế đã chọn: <span id="selected-seats"></span></div>
+                              <div class="total-price">Tổng giá: <span id="total-price">0</span> VND</div>
+                              <button id="book-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal" disabled>Đặt vé</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  const seats = document.querySelectorAll('.seat');
+  const selectedSeatsEl = document.getElementById('selected-seats');
+  const totalPriceEl = document.getElementById('total-price');
+  const bookButton = document.getElementById('book-button');
+  let selectedSeats = [];
+  let totalPrice = 0;
+  
+  seats.forEach(seat => {
+      seat.addEventListener('click', () => {
+          if (seat.classList.contains('unavailable')) return; // Ngăn chọn ghế không có
+  
+          if (seat.classList.contains('selected')) {
+              seat.classList.remove('selected');
+              selectedSeats = selectedSeats.filter(s => s !== seat.dataset.seat);
+              totalPrice -= parseInt(seat.dataset.price);
+          } else {
+              seat.classList.add('selected');
+              selectedSeats.push(seat.dataset.seat);
+              totalPrice += parseInt(seat.dataset.price);
+          }
+          updateBookingDetails();
+      });
+  });
+  
+  function updateBookingDetails() {
+      selectedSeatsEl.textContent = selectedSeats.join(', ');
+      totalPriceEl.textContent = totalPrice;
+      bookButton.disabled = selectedSeats.length === 0; //Disable button if no seat is selected
+  }
+  
+  bookButton.addEventListener('click', () => {
+      // Add your booking logic here, e.g., send data to server
+      alert(`Bạn đã đặt vé cho các ghế: ${selectedSeats.join(', ')}\nTổng giá: ${totalPrice} VND`);
+  
+      // Clear selected seats after booking (optional)
+      seats.forEach(seat => seat.classList.remove('selected'));
+      selectedSeats = [];
+      totalPrice = 0;
+      updateBookingDetails();
+  });
+</script>
