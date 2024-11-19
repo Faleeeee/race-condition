@@ -1,128 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Soccer &mdash; Website by Colorlib</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../fonts/icomoon/style.css" />
-    <link rel="stylesheet" href="../css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" href="../css/jquery-ui.css" />
-    <link rel="stylesheet" href="../css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="../css/jquery.fancybox.min.css" />
-    <link rel="stylesheet" href="../css/bootstrap-datepicker.css" />
-    <link rel="stylesheet" href="../fonts/flaticon/font/flaticon.css" />
-    <link rel="stylesheet" href="../css/aos.css" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <style>
-      .seat-map {
-          display: grid;
-          grid-template-rows: repeat(10, 5fr); /* 5 hàng */
-          gap: 10px;
+<head>
+  <title>Soccer &mdash; Website by Colorlib</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../fonts/icomoon/style.css" />
+  <link rel="stylesheet" href="../css/bootstrap/bootstrap.css" />
+  <link rel="stylesheet" href="../css/jquery-ui.css" />
+  <link rel="stylesheet" href="../css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
+  <link rel="stylesheet" href="../css/jquery.fancybox.min.css" />
+  <link rel="stylesheet" href="../css/bootstrap-datepicker.css" />
+  <link rel="stylesheet" href="../fonts/flaticon/font/flaticon.css" />
+  <link rel="stylesheet" href="../css/aos.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    .seat-map {
+      display: grid;
+      grid-template-rows: repeat(10, 5fr);
+      /* 5 hàng */
+      gap: 10px;
+    }
+
+    .seat-row {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .seat {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 5px;
+      background-color: lightgreen;
+      /* Mặc định ghế trống */
+    }
+
+    .seat.selected {
+      background-color: lightblue;
+    }
+
+    .seat.unavailable {
+      background-color: lightgray;
+      cursor: default;
+    }
+
+    .screen {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      font-size: 1.2rem;
+    }
+
+    .legend {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .legend .row {
+      display: flex;
+      align-items: center;
+    }
+
+    .legend .seat {
+      margin-right: 5px;
+    }
+
+    .booking-details {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .booking-details h3 {
+      margin-bottom: 10px;
+    }
+
+    .booking-details button {
+      margin-top: 10px;
+      width: 100%;
+      max-width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+
+      .col-md-8,
+      .col-md-4 {
+        flex: 1 1 100%;
       }
 
-      .seat-row {
-          display: flex;
-          justify-content: center;
-          gap: 5px;
-      }
+    }
 
-      .seat {
-          width: 40px;
-          height: 40px;
-          border: 1px solid #ccc;
-          cursor: pointer;
-          text-align: center;
-          line-height: 40px;
-          border-radius: 5px;
-          background-color: lightgreen; /* Mặc định ghế trống */
-      }
+    .modal-dialog {
+      max-width: 1000px;
+      /* Chiều rộng tối đa */
+      width: 1000px;
+      /* Chiều rộng mặc định */
+    }
 
-      .seat.selected {
-          background-color: lightblue;
-      }
-
-      .seat.unavailable {
-          background-color: lightgray;
-          cursor: default;
-      }
-
-      .screen {
-          background-color: #333;
-          color: white;
-          text-align: center;
-          padding: 10px;
-          margin-bottom: 20px;
-          border-radius: 5px;
-          font-size: 1.2rem;
-      }
-
-      .legend {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          margin-top: 20px;
-      }
-
-      .legend .row {
-          display: flex;
-          align-items: center;
-      }
-
-      .legend .seat {
-          margin-right: 5px;
-      }
-
-      .booking-details {
-          margin-top: 20px;
-          text-align: center;
-      }
-
-      .booking-details h3 {
-          margin-bottom: 10px;
-      }
-
-      .booking-details button {
-          margin-top: 10px;
-          width: 100%;
-          max-width: 200px;
-          margin-left: auto;
-          margin-right: auto;
-      }
-
-      .modal-body {
-          padding: 20px;
-      }
-
-      @media (max-width: 768px) {
-          .col-md-8, .col-md-4 {
-              flex: 1 1 100%;
-          }
-          
-      }
-      .modal-dialog {
-        max-width: 1000px; /* Chiều rộng tối đa */
-        width: 1000px;     /* Chiều rộng mặc định */
-      }
-      .modal-content{
-        width:100%;
-        max-width:900px;
-        height: 650px;
-      }
+    .modal-content {
+      width: 100%;
+      max-width: 900px;
+      height: 650px;
+    }
   </style>
-  </head>
+</head>
+
 <body>
   <div class="site-wrap">
     <div class="site-mobile-menu site-navbar-target">
@@ -141,50 +142,22 @@
             <a href="index.html"><img src="../images/logo.png" alt="Logo" /></a>
           </div>
           <div class="ml-auto">
-            <nav
-              class="site-navigation position-relative text-right"
-              role="navigation"
-            >
-              <ul
-                class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
-              >
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                 <li>
-                  <a
-                    href="partials/home.html"
-                    class="nav-link"
-                    data-page="partials/home.html"
-                    >Home</a
-                  >
+                  <a href="partials/home.html" class="nav-link" data-page="partials/home.html">Home</a>
                 </li>
                 <li>
-                  <a
-                    href="pages/matches.html"
-                    class="nav-link"
-                    data-page="pages/matches.html"
-                    >Matches</a
-                  >
+                  <a href="pages/matches.html" class="nav-link" data-page="pages/matches.html">Matches</a>
                 </li>
                 <li>
-                  <a
-                    href="pages/players.html"
-                    class="nav-link"
-                    data-page="pages/players.html"
-                    >Players</a
-                  >
+                  <a href="pages/players.html" class="nav-link" data-page="pages/players.html">Players</a>
                 </li>
                 <li>
-                  <a
-                    href="pages/booking.html"
-                    class="nav-link"
-                    data-page="pages/booking.html"
-                    >Booking</a
-                  >
+                  <a href="pages/booking.html" class="nav-link" data-page="pages/booking.html">Booking</a>
                 </li>
                 <li>
-                  <a
-                    href="pages/booking.html"
-                    >Booking</a
-                  >
+                  <a href="pages/booking.html">Booking</a>
                 </li>
                 <li class="dropdown">
                   <a href="#" class="nav-link">
@@ -192,29 +165,17 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <a
-                        href="pages/login.html"
-                        class="nav-link"
-                        data-page="pages/login.html"
-                        >Login</a
-                      >
+                      <a href="pages/login.html" class="nav-link" data-page="pages/login.html">Login</a>
                     </li>
                     <li>
-                      <a
-                        href="pages/register.html"
-                        class="nav-link"
-                        data-page="pages/register.html"
-                        >Register</a
-                      >
+                      <a href="pages/register.html" class="nav-link" data-page="pages/register.html">Register</a>
                     </li>
                   </ul>
                 </li>
               </ul>
             </nav>
-            <a
-              href="#"
-              class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white"
-            >
+            <a href="#"
+              class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white">
               <span class="icon-menu h3 text-white"></span>
             </a>
           </div>
@@ -235,8 +196,8 @@
       </div>
     </div>
   </div>
-  
-  
+
+
   <div class="site-section bg-dark">
     <div class="container">
       <div class="row mb-5">
@@ -262,129 +223,70 @@
                 </div>
               </div>
             </div>
-  
+
             <div class="text-center widget-vs-contents mb-4">
               <h4>World Cup League</h4>
               <p class="mb-5">
-                <span class="d-block">December 20th, 2020</span>
+                <span class="d-block">October 27th, 2024</span>
                 <span class="d-block">9:30 AM GMT+0</span>
                 <strong class="text-primary">New Euro Arena</strong>
               </p>
-  
+
               <div id="date-countdown2" class="pb-1"></div>
             </div>
           </div>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 title-section">
           <h2 class="heading">Upcoming Match</h2>
         </div>
-        <div class="col-lg-6 mb-4">
-          <div class="bg-light p-4 rounded">
-            <div class="widget-body">
-              <div class="widget-vs">
-                <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
-                  <div class="team-1 text-center">
-                    <img src="../images/logo_1.png" alt="Image" />
-                    <h3>Football League</h3>
-                  </div>
-                  <div>
-                    <span class="vs"><span>VS</span></span>
-                  </div>
-                  <div class="team-2 text-center">
-                    <img src="../images/logo_2.png" alt="Image" />
-                    <h3>Soccer</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-  
-            <div class="text-center widget-vs-contents mb-4">
-              <h4>World Cup League</h4>
-              <p class="mb-5">
-                <span class="d-block">December 20th, 2020</span>
-                <span class="d-block">9:30 AM GMT+0</span>
-                <strong class="text-primary">New Euro Arena</strong>
-              </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
-              <button class="btn btn-secondary">View Details</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 mb-4">
-          <div class="bg-light p-4 rounded">
-            <div class="widget-body">
-              <div class="widget-vs">
-                <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
-                  <div class="team-1 text-center">
-                    <img src="../images/logo_3.png" alt="Image" />
-                    <h3>Football League</h3>
-                  </div>
-                  <div>
-                    <span class="vs"><span>VS</span></span>
-                  </div>
-                  <div class="team-2 text-center">
-                    <img src="../images/logo_4.png" alt="Image" />
-                    <h3>Soccer</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-  
-            <div class="text-center widget-vs-contents mb-4">
-              <h4>World Cup League</h4>
-              <p class="mb-5">
-                <span class="d-block">December 20th, 2020</span>
-                <span class="d-block">9:30 AM GMT+0</span>
-                <strong class="text-primary">New Euro Arena</strong>
-              </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
-              <button class="btn btn-secondary">View Details</button>
-            </div>
-          </div>
-        </div>
-  
-  
+
         <!-- Booking Modal -->
         <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="bookingModalLabel">Đặt Vé</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="container">
-                          <div class="row">
-                              <div class="col-md-8">
-                                  <h2>Chọn Ghế</h2>
-                                  <div class="seat-map">
-                                      <div class="screen">Sân bóng</div>
-                                      <div class="seats"></div>
-                                  </div>
-                              </div>
-                              <div class="col-md-4">
-                                  <div class="legend">
-                                      <div class="row"><div class="seat available"></div><span>Ghế trống</span></div>
-                                      <div class="row"><div class="seat selected"></div><span>Ghế đã chọn</span></div>
-                                      <div class="row"><div class="seat unavailable"></div><span>Ghế không có</span></div>
-                                  </div>
-                                  <div class="booking-details mt-4">
-                                      <h3>Thông tin đặt vé</h3>
-                                      <div class="selected-seats">Ghế đã chọn: <span id="selected-seats"></span></div>
-                                      <div class="total-price">Tổng giá: <span id="total-price">0</span> VND</div>
-                                      <button id="book-button" class="btn btn-primary" disabled>Đặt vé</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Đặt Vé</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
               </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h2>Chọn Ghế</h2>
+                      <div class="seat-map">
+                        <div class="screen">Sân bóng</div>
+                        <div class="seats"></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="legend">
+                        <div class="row">
+                          <div class="seat available"></div><span>Ghế trống</span>
+                        </div>
+                        <div class="row">
+                          <div class="seat selected"></div><span>Ghế đã chọn</span>
+                        </div>
+                        <div class="row">
+                          <div class="seat unavailable"></div><span>Ghế không có</span>
+                        </div>
+                      </div>
+                      <div class="booking-details mt-4">
+                        <h3>Thông tin đặt vé</h3>
+                        <div class="selected-seats">Ghế đã chọn: <span id="selected-seats"></span></div>
+                        <div class="total-price">Tổng giá: <span id="total-price">0</span> VND</div>
+                        <button id="book-button" class="btn btn-primary" disabled>Đặt vé</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-  
+        </div>
+
         <!-- Detail Ticket Modal -->
         <div id="detailTicketModal" class="modal" style="display:none;">
           <div class="modal-content">
@@ -394,12 +296,12 @@
             <p><strong>Thời gian:</strong> <span id="matchTime">20:00 - 20/11/2023</span></p>
             <p><strong>Tổng số chỗ ngồi:</strong> <span id="totalSeats">50,000</span></p>
             <p><strong>Giá vé 1 người :</strong> <span id="totalSeats">100,000đ</span></p>
-  
+
             <p><strong>Địa điểm:</strong> <span id="stadiumLocation">Sân vận động Quốc gia</span></p>
           </div>
         </div>
-  
-        
+
+
         <div class="col-lg-6 mb-4">
           <div class="bg-light p-4 rounded">
             <div class="widget-body">
@@ -407,27 +309,28 @@
                 <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                   <div class="team-1 text-center">
                     <img src="../images/logo_1.png" alt="Image" />
-                    <h3>Football League</h3>
+                    <h3>Arsenal</h3>
                   </div>
                   <div>
                     <span class="vs"><span>VS</span></span>
                   </div>
                   <div class="team-2 text-center">
                     <img src="../images/logo_2.png" alt="Image" />
-                    <h3>Soccer</h3>
+                    <h3>Manchester United</h3>
                   </div>
                 </div>
               </div>
             </div>
-  
+
             <div class="text-center widget-vs-contents mb-4">
               <h4>World Cup League</h4>
               <p class="mb-5">
-                <span class="d-block">December 20th, 2020</span>
-                <span class="d-block">9:30 AM GMT+0</span>
+                <span class="d-block">October 27th, 2024</span>
+                <span class="d-block">14:25 PM GMT+0</span>
                 <strong class="text-primary">New Euro Arena</strong>
               </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book
+                Tickets</button>
               <button class="btn btn-secondary">View Details</button>
             </div>
           </div>
@@ -439,27 +342,28 @@
                 <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
                   <div class="team-1 text-center">
                     <img src="../images/logo_3.png" alt="Image" />
-                    <h3>Football League</h3>
+                    <h3>Liverpool</h3>
                   </div>
                   <div>
                     <span class="vs"><span>VS</span></span>
                   </div>
                   <div class="team-2 text-center">
                     <img src="../images/logo_4.png" alt="Image" />
-                    <h3>Soccer</h3>
+                    <h3>Manchester City</h3>
                   </div>
                 </div>
               </div>
             </div>
-  
+
             <div class="text-center widget-vs-contents mb-4">
               <h4>World Cup League</h4>
               <p class="mb-5">
-                <span class="d-block">December 20th, 2020</span>
-                <span class="d-block">9:30 AM GMT+0</span>
+                <span class="d-block">October 26th, 2024</span>
+                <span class="d-block">9:25 AM GMT+0</span>
                 <strong class="text-primary">New Euro Arena</strong>
               </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Tickets</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book
+                Tickets</button>
               <button class="btn btn-secondary">View Details</button>
             </div>
           </div>
@@ -467,7 +371,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="site-section">
     <div class="container">
       <div class="row">
@@ -482,7 +386,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="owl-4-slider owl-carousel">
         <div class="item">
           <div class="video-media">
@@ -525,7 +429,7 @@
             </a>
           </div>
         </div>
-  
+
         <div class="item">
           <div class="video-media">
             <img src="../images/img_1.jpg" alt="Image" class="img-fluid" />
@@ -570,7 +474,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="container site-section">
     <div class="row">
       <div class="col-6 title-section">
@@ -621,86 +525,89 @@
     let totalPrice = 0;
 
     const seatData = [
-        { row: 'A', seats: Array(10).fill(1) },
-        { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1] },
-        { row: 'C', seats: Array(10).fill(1) },
-        { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1] },
-        { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1] },
+      { row: 'A', seats: Array(10).fill(1) },
+      { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1] },
+      { row: 'C', seats: Array(10).fill(1) },
+      { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1] },
+      { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1] },
     ];
 
     const seatPrice = 100000;
 
     function createSeatMap() {
-        seatData.forEach(row => {
-            const rowDiv = document.createElement('div');
-            rowDiv.classList.add('seat-row');
-            row.seats.forEach((available, index) => {
-                const seatDiv = document.createElement('div');
-                seatDiv.classList.add('seat');
-                seatDiv.classList.add(available ? 'available' : 'unavailable');
-                seatDiv.dataset.seat = `${row.row}${index + 1}`;
-                seatDiv.dataset.price = seatPrice;
-                seatDiv.textContent = seatDiv.dataset.seat;
-                seatDiv.addEventListener('click', handleSeatClick);
-                rowDiv.appendChild(seatDiv);
-            });
-            seatsContainer.appendChild(rowDiv);
+      seatData.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.classList.add('seat-row');
+        row.seats.forEach((available, index) => {
+          const seatDiv = document.createElement('div');
+          seatDiv.classList.add('seat');
+          seatDiv.classList.add(available ? 'available' : 'unavailable');
+          seatDiv.dataset.seat = `${row.row}${index + 1}`;
+          seatDiv.dataset.price = seatPrice;
+          seatDiv.textContent = seatDiv.dataset.seat;
+          seatDiv.addEventListener('click', handleSeatClick);
+          rowDiv.appendChild(seatDiv);
         });
+        seatsContainer.appendChild(rowDiv);
+      });
     }
 
     function handleSeatClick(event) {
-        const seat = event.target;
-        if (seat.classList.contains('unavailable')) return;
+      const seat = event.target;
+      if (seat.classList.contains('unavailable')) return;
 
-        if (seat.classList.contains('selected')) {
-            seat.classList.remove('selected');
-            selectedSeats = selectedSeats.filter(s => s !== seat.dataset.seat);
-            totalPrice -= seatPrice;
-        } else {
-            seat.classList.add('selected');
-            selectedSeats.push(seat.dataset.seat);
-            totalPrice += seatPrice;
-        }
-        updateBookingDetails();
+      if (seat.classList.contains('selected')) {
+        seat.classList.remove('selected');
+        selectedSeats = selectedSeats.filter(s => s !== seat.dataset.seat);
+        totalPrice -= seatPrice;
+      } else {
+        seat.classList.add('selected');
+        selectedSeats.push(seat.dataset.seat);
+        totalPrice += seatPrice;
+      }
+      updateBookingDetails();
     }
 
     function updateBookingDetails() {
-        selectedSeatsEl.textContent = selectedSeats.join(', ');
-        totalPriceEl.textContent = totalPrice;
-        bookButton.disabled = selectedSeats.length === 0;
+      selectedSeatsEl.textContent = selectedSeats.join(', ');
+      totalPriceEl.textContent = totalPrice;
+      bookButton.disabled = selectedSeats.length === 0;
     }
 
     createSeatMap();
     bookButton.addEventListener('click', () => {
-        if (selectedSeats.length > 0) {
-            alert(`Ghế đã đặt: ${selectedSeats.join(', ')}\nTổng giá: ${totalPrice} VND`);
-            selectedSeats = [];
-            totalPrice = 0;
-            updateBookingDetails();
-            seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
-        } else {
-            alert("Vui lòng chọn ghế!");
-        }
+      if (selectedSeats.length > 0) {
+        alert(`Ghế đã đặt: ${selectedSeats.join(', ')}\nTổng giá: ${totalPrice} VND`);
+        selectedSeats = [];
+        totalPrice = 0;
+        updateBookingDetails();
+        seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
+      } else {
+        alert("Vui lòng chọn ghế!");
+      }
     });
-</script>
+  </script>
   <script>
     function loadHTML(id, url) {
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById(id).innerHTML = data;
-                if (id === 'home') {
-                    initBooking(); // Gọi hàm initBooking()
-                }
-            })
-            .catch(error => console.error("Error loading HTML:", error));
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(id).innerHTML = data;
+          if (id === 'home') {
+            initBooking(); // Gọi hàm initBooking()
+          }
+        })
+        .catch(error => console.error("Error loading HTML:", error));
     }
 
     loadHTML("header", "../partials/header.html");
     loadHTML("home", "../partials/home.html");
     loadHTML("footer", "../partials/footer.html");
 
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

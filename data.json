@@ -1,0 +1,21 @@
+[
+    {
+      "match_id": "1",
+      "teamId_1": "1",
+      "teamId_2": "2",
+      "stadium_id": "1",
+      "match_date": "2024-10-27",
+      "match_time": "14:25:39",
+      "total_seats": 10
+    },
+    {
+      "match_id": "2",
+      "teamId_1": "3",
+      "teamId_2": "4",
+      "stadium_id": "3",
+      "match_date": "2024-10-26",
+      "match_time": "09:25:39",
+      "total_seats": 10
+    }
+  ]
+  
