@@ -1,3 +1,5 @@
+// end point
+// lấy ghế của trận đấu: http://localhost:3001/api/seat/getSeatMatch (truyền match_id vào body)
 const express = require('express');
 const cors = require('cors');
 const initRoutes = require('./routes/index');
