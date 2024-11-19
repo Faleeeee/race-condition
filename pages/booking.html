@@ -327,121 +327,151 @@
     let totalPrice = 0;
     const seatPrice = 100000;
     const apiUrl = 'http://localhost:3001/api/ticket/bookTicket';
-    let currentMatchId = 1; // Khởi tạo matchId ở đây
+    let currentMatchId = null;
     let userId = 3;
-
-    const seatData = [
-      { row: 'A', seats: Array(11).fill(1) },
-      { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0] },
-      { row: 'C', seats: Array(11).fill(1) },
-      { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1] },
-      { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0] },
-    ];
-
+    let seatData = [];
+    
+    // **ĐIỀU CHỈNH DỮ LIỆU NÀY CHO PHÙ HỢP VỚI BACKEND CỦA BẠN**
+    // Bổ sung seat_id cho mỗi ghế
+    const seatDataByMatch = {
+      1: [
+        { row: 'A', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 1 })) },
+        { row: 'B', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 12 })) },
+        { row: 'C', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 23 })) },
+        { row: 'D', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 34 })) },
+        { row: 'E', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 45 })) },
+      ],
+      3: [
+        { row: 'A', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 1 })) },
+        { row: 'B', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 12 })) },
+        { row: 'C', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 23 })) },
+        { row: 'D', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 34 })) },
+        { row: 'E', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 45 })) },
+      ],
+    };
+    
+    
+    
+    const bookingModal = document.getElementById('bookingModal');
+    
+    bookingModal.addEventListener('show.bs.modal', (event) => {
+      const button = event.relatedTarget;
+      currentMatchId = parseInt(button.dataset.matchId, 10);
+      seatData = seatDataByMatch[currentMatchId] || [];
+      seatsContainer.innerHTML = '';
+      createSeatMap();
+      clearSelection();
+    });
+    
     function createSeatMap() {
-      seatData.forEach(row => {
-        const rowDiv = document.createElement('div');
-        rowDiv.classList.add('seat-row');
-        row.seats.forEach((available, index) => {
-          const seatDiv = document.createElement('div');
-          seatDiv.classList.add('seat');
-          seatDiv.classList.add(available ? 'available' : 'unavailable');
-          seatDiv.dataset.seat = `${row.row}${index + 1}`;
-          seatDiv.dataset.price = seatPrice;
-          seatDiv.textContent = seatDiv.dataset.seat;
-          seatDiv.addEventListener('click', handleSeatClick);
-          rowDiv.appendChild(seatDiv);
+        if (!seatData || seatData.length === 0) {
+            console.error("Không có dữ liệu chỗ ngồi cho trận đấu này.");
+            return;
+        }
+        seatData.forEach(row => {
+            const rowDiv = document.createElement('div');
+            rowDiv.classList.add('seat-row');
+            row.seats.forEach(seat => {
+                const seatDiv = document.createElement('div');
+                seatDiv.classList.add('seat');
+                seatDiv.classList.add(seat.available ? 'available' : 'unavailable');
+                seatDiv.dataset.seatId = seat.seat_id; // Sử dụng seat_id làm dataset
+                seatDiv.textContent = `${row.row}${seat.seat_id}`; // Hiển thị tên ghế (ví dụ: A1, A2,...)
+                seatDiv.addEventListener('click', handleSeatClick);
+                rowDiv.appendChild(seatDiv);
+            });
+            seatsContainer.appendChild(rowDiv);
         });
-        seatsContainer.appendChild(rowDiv);
-      });
     }
-
+    
+    
     function handleSeatClick(event) {
-      const seat = event.target;
-      if (seat.classList.contains('unavailable')) return;
-
-      if (seat.classList.contains('selected')) {
-        seat.classList.remove('selected');
-        selectedSeats = selectedSeats.filter(s => s !== seat.dataset.seat);
-        totalPrice -= seatPrice;
-      } else {
-        seat.classList.add('selected');
-        selectedSeats.push(seat.dataset.seat);
-        totalPrice += seatPrice;
-      }
-      updateBookingDetails();
+        const seat = event.target;
+        if (seat.classList.contains('unavailable')) return;
+    
+        const seatId = parseInt(seat.dataset.seatId, 10); // Lấy seat_id từ dataset
+    
+    
+        if (seat.classList.contains('selected')) {
+            seat.classList.remove('selected');
+            selectedSeats = selectedSeats.filter(s => s !== seatId);
+            totalPrice -= seatPrice;
+        } else {
+            seat.classList.add('selected');
+            selectedSeats.push(seatId);
+            totalPrice += seatPrice;
+        }
+        updateBookingDetails();
     }
-
+    
+    
+    
     function updateBookingDetails() {
       selectedSeatsEl.textContent = selectedSeats.join(', ');
       totalPriceEl.textContent = totalPrice;
       bookButton.disabled = selectedSeats.length === 0;
     }
-
-    function updateSeatData(bookedSeats) {
-      bookedSeats.forEach(seat => {
-          const [row, index] = parseSeat(seat);
-          seatData.find(r => r.row === row).seats[index - 1] = 0;
-      });
-    }
     
-    function parseSeat(seatCode) {
-      return [seatCode.charAt(0), parseInt(seatCode.slice(1))];
-    }
-
-    createSeatMap();
+    
     bookButton.addEventListener('click', async () => {
       if (selectedSeats.length === 0) {
-          alert("Vui lòng chọn ghế!");
-          return;
+        alert("Vui lòng chọn ghế!");
+        return;
       }
-  
-      let allBookingsSuccessful = true; // Flag to check if all bookings were successful
-  
-      for (const seat of selectedSeats) {
-          const bookingData = {
-              match_id: currentMatchId,
-              seat_id: parseInt(seat.slice(1)),
-              user_id: userId,
-          };
-  
-          try {
-              const response = await fetch(apiUrl, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(bookingData),
-              });
-  
-              if (!response.ok) {
-                  allBookingsSuccessful = false; // Set flag to false if any booking fails
-                  const errorData = await response.json();
-                  const errorMessage = errorData.message || `Đặt vé cho ghế ${seat} thất bại: ${response.status} ${response.statusText}`;
-                  throw new Error(errorMessage);
-              }
-  
-              console.log(`Ghế ${seat} đã được đặt`);
-  
-          } catch (error) {
-              alert(`Lỗi: ${error.message}`);
-              break; // Stop booking if any error occurs
-          }
-      }
-  
-      if (allBookingsSuccessful) {
-          updateSeatData(selectedSeats);
+    
+    
+      const bookingPromises = selectedSeats.map(seatId => {
+        return fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            match_id: currentMatchId,
+            seat_id: seatId,  // Gửi từng seat_id
+            user_id: userId,
+          }),
+        });
+      });
+    
+    
+      try {
+        const responses = await Promise.all(bookingPromises);
+        // Kiểm tra tất cả responses
+        if (responses.every(response => response.ok)) {
           alert("Đặt vé thành công!");
           clearSelection();
+            // Lấy dữ liệu từ response nếu cần
+            const data = await Promise.all(responses.map(r => r.json()));
+        } else {
+          // Xử lý lỗi cho từng response
+            for (const response of responses) {
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    let errorMessage = errorData.message || `Đặt vé thất bại: ${response.status} ${response.statusText} for seat_id ${errorData.seat_id}`;
+                    throw new Error(errorMessage);
+                }
+    
+    
+            }
+    
+    
+        }
+      } catch (error) {
+    
+        alert(`Lỗi: ${error.message}`);
       }
-  });
+    });
+    
+    
     function clearSelection() {
-      selectedSeats = [];
-      totalPrice = 0;
-      updateBookingDetails();
-      seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
-  }
-  </script>
+        selectedSeats = [];
+        totalPrice = 0;
+        updateBookingDetails();
+        seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
+    }
+    
+    </script>
 
   <script>
     function loadHTML(id, url) {
