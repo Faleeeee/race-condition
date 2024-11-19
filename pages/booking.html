@@ -21,8 +21,7 @@
   <style>
     .seat-map {
       display: grid;
-      grid-template-rows: repeat(10, 5fr);
-      /* 5 hàng */
+
       gap: 10px;
     }
 
@@ -61,6 +60,7 @@
       margin-bottom: 20px;
       border-radius: 5px;
       font-size: 1.2rem;
+      height: 100px;
     }
 
     .legend {
@@ -200,44 +200,6 @@
 
   <div class="site-section bg-dark">
     <div class="container">
-      <div class="row mb-5">
-        <div class="col-lg-12">
-          <div class="widget-next-match">
-            <div class="widget-title">
-              <h3>Next Match</h3>
-            </div>
-            <div class="widget-body mb-3">
-              <div class="widget-vs">
-                <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
-                  <div class="team-1 text-center">
-                    <img src="../images/logo_1.png" alt="Image" />
-                    <h3>Football League</h3>
-                  </div>
-                  <div>
-                    <span class="vs"><span>VS</span></span>
-                  </div>
-                  <div class="team-2 text-center">
-                    <img src="../images/logo_2.png" alt="Image" />
-                    <h3>Soccer</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="text-center widget-vs-contents mb-4">
-              <h4>World Cup League</h4>
-              <p class="mb-5">
-                <span class="d-block">October 27th, 2024</span>
-                <span class="d-block">9:30 AM GMT+0</span>
-                <strong class="text-primary">New Euro Arena</strong>
-              </p>
-
-              <div id="date-countdown2" class="pb-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="row">
         <div class="col-12 title-section">
           <h2 class="heading">Upcoming Match</h2>
@@ -255,7 +217,6 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-md-8">
-                      <h2>Chọn Ghế</h2>
                       <div class="seat-map">
                         <div class="screen">Sân bóng</div>
                         <div class="seats"></div>
@@ -287,21 +248,6 @@
           </div>
         </div>
 
-        <!-- Detail Ticket Modal -->
-        <div id="detailTicketModal" class="modal" style="display:none;">
-          <div class="modal-content">
-            <span class="close" onclick="closeModal('detailTicketModal')">&times;</span>
-            <h2>Chi Tiết Vé</h2>
-            <p><strong>Trận đấu:</strong> <span id="matchTeams">Đội A vs Đội B</span></p>
-            <p><strong>Thời gian:</strong> <span id="matchTime">20:00 - 20/11/2023</span></p>
-            <p><strong>Tổng số chỗ ngồi:</strong> <span id="totalSeats">50,000</span></p>
-            <p><strong>Giá vé 1 người :</strong> <span id="totalSeats">100,000đ</span></p>
-
-            <p><strong>Địa điểm:</strong> <span id="stadiumLocation">Sân vận động Quốc gia</span></p>
-          </div>
-        </div>
-
-
         <div class="col-lg-6 mb-4">
           <div class="bg-light p-4 rounded">
             <div class="widget-body">
@@ -329,7 +275,7 @@
                 <span class="d-block">14:25 PM GMT+0</span>
                 <strong class="text-primary">New Euro Arena</strong>
               </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal" data-match-id="1">Book
                 Tickets</button>
               <button class="btn btn-secondary">View Details</button>
             </div>
@@ -362,7 +308,7 @@
                 <span class="d-block">9:25 AM GMT+0</span>
                 <strong class="text-primary">New Euro Arena</strong>
               </p>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal" data-match-id="3">Book
                 Tickets</button>
               <button class="btn btn-secondary">View Details</button>
             </div>
@@ -372,150 +318,6 @@
     </div>
   </div>
 
-  <div class="site-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-6 title-section">
-          <h2 class="heading">Videos</h2>
-        </div>
-        <div class="col-6 text-right">
-          <div class="custom-nav">
-            <a href="#" class="js-custom-prev-v2"><span class="icon-keyboard_arrow_left"></span></a>
-            <span></span>
-            <a href="#" class="js-custom-next-v2"><span class="icon-keyboard_arrow_right"></span></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="owl-4-slider owl-carousel">
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_1.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">Dogba set for Juvendu return?</h3>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_2.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">
-                  Kai Nets Double To Secure Comfortable Away Win
-                </h3>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_3.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">Romolu to stay at Real Nadrid?</h3>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_1.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">Dogba set for Juvendu return?</h3>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_2.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">
-                  Kai Nets Double To Secure Comfortable Away Win
-                </h3>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="video-media">
-            <img src="../images/img_3.jpg" alt="Image" class="img-fluid" />
-            <a href="https://vimeo.com/139714818" class="d-flex play-button align-items-center" data-fancybox>
-              <span class="icon mr-3">
-                <span class="icon-play"></span>
-              </span>
-              <div class="caption">
-                <h3 class="m-0">Romolu to stay at Real Nadrid?</h3>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container site-section">
-    <div class="row">
-      <div class="col-6 title-section">
-        <h2 class="heading">Our Blog</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="custom-media d-flex">
-          <div class="img mr-4">
-            <img src="../images/img_1.jpg" alt="Image" class="img-fluid" />
-          </div>
-          <div class="text">
-            <span class="meta">May 20, 2020</span>
-            <h3 class="mb-4"><a href="#">Romolu to stay at Real Nadrid?</a></h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
-              deserunt saepe tempora dolorem.
-            </p>
-            <p><a href="#">Read more</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="custom-media d-flex">
-          <div class="img mr-4">
-            <img src="../images/img_3.jpg" alt="Image" class="img-fluid" />
-          </div>
-          <div class="text">
-            <span class="meta">May 20, 2020</span>
-            <h3 class="mb-4"><a href="#">Romolu to stay at Real Nadrid?</a></h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
-              deserunt saepe tempora dolorem.
-            </p>
-            <p><a href="#">Read more</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <script>
     const seatsContainer = document.querySelector('.seats');
     const selectedSeatsEl = document.getElementById('selected-seats');
@@ -523,16 +325,18 @@
     const bookButton = document.getElementById('book-button');
     let selectedSeats = [];
     let totalPrice = 0;
+    const seatPrice = 100000;
+    const apiUrl = 'http://localhost:3001/api/ticket/bookTicket';
+    let currentMatchId = 1; // Khởi tạo matchId ở đây
+    let userId = 3;
 
     const seatData = [
-      { row: 'A', seats: Array(10).fill(1) },
-      { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1] },
-      { row: 'C', seats: Array(10).fill(1) },
-      { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1] },
-      { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1] },
+      { row: 'A', seats: Array(11).fill(1) },
+      { row: 'B', seats: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0] },
+      { row: 'C', seats: Array(11).fill(1) },
+      { row: 'D', seats: [1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1] },
+      { row: 'E', seats: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0] },
     ];
-
-    const seatPrice = 100000;
 
     function createSeatMap() {
       seatData.forEach(row => {
@@ -574,19 +378,71 @@
       bookButton.disabled = selectedSeats.length === 0;
     }
 
+    function updateSeatData(bookedSeats) {
+      bookedSeats.forEach(seat => {
+          const [row, index] = parseSeat(seat);
+          seatData.find(r => r.row === row).seats[index - 1] = 0;
+      });
+    }
+    
+    function parseSeat(seatCode) {
+      return [seatCode.charAt(0), parseInt(seatCode.slice(1))];
+    }
+
     createSeatMap();
-    bookButton.addEventListener('click', () => {
-      if (selectedSeats.length > 0) {
-        alert(`Ghế đã đặt: ${selectedSeats.join(', ')}\nTổng giá: ${totalPrice} VND`);
-        selectedSeats = [];
-        totalPrice = 0;
-        updateBookingDetails();
-        seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
-      } else {
-        alert("Vui lòng chọn ghế!");
+    bookButton.addEventListener('click', async () => {
+      if (selectedSeats.length === 0) {
+          alert("Vui lòng chọn ghế!");
+          return;
       }
-    });
+  
+      let allBookingsSuccessful = true; // Flag to check if all bookings were successful
+  
+      for (const seat of selectedSeats) {
+          const bookingData = {
+              match_id: currentMatchId,
+              seat_id: parseInt(seat.slice(1)),
+              user_id: userId,
+          };
+  
+          try {
+              const response = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(bookingData),
+              });
+  
+              if (!response.ok) {
+                  allBookingsSuccessful = false; // Set flag to false if any booking fails
+                  const errorData = await response.json();
+                  const errorMessage = errorData.message || `Đặt vé cho ghế ${seat} thất bại: ${response.status} ${response.statusText}`;
+                  throw new Error(errorMessage);
+              }
+  
+              console.log(`Ghế ${seat} đã được đặt`);
+  
+          } catch (error) {
+              alert(`Lỗi: ${error.message}`);
+              break; // Stop booking if any error occurs
+          }
+      }
+  
+      if (allBookingsSuccessful) {
+          updateSeatData(selectedSeats);
+          alert("Đặt vé thành công!");
+          clearSelection();
+      }
+  });
+    function clearSelection() {
+      selectedSeats = [];
+      totalPrice = 0;
+      updateBookingDetails();
+      seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
+  }
   </script>
+
   <script>
     function loadHTML(id, url) {
       fetch(url)
