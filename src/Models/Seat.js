@@ -3,7 +3,14 @@ const db = require('../config/db');
 const Seat = {
     checkSeat: async (match_id) => {
         try {
-            const chechStatusSeat = 'SELECT * FROM seatStatus WHERE match_id=? FOR UPDATE';
+            // Lấy tất cả các ghế từ bảng seatStatus
+            const chechStatusSeat = `
+                SELECT seatStatus.*, seat.seat_number 
+                FROM seatStatus 
+                INNER JOIN seat ON seatStatus.seat_id = seat.seat_id 
+                WHERE seatStatus.match_id = ? 
+                FOR UPDATE
+            `;
             const [rows] = await db.promise().query(chechStatusSeat, [match_id]);
 
             if (rows.length === 0) {
