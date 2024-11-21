@@ -318,7 +318,159 @@
     </div>
   </div>
 
-  <script>
+<script>
+  const seatsContainer = document.querySelector('.seats');
+const selectedSeatsEl = document.getElementById('selected-seats');
+const totalPriceEl = document.getElementById('total-price');
+const bookButton = document.getElementById('book-button');
+let selectedSeats = [];
+let totalPrice = 0;
+const seatPrice = 100000;
+const apiUrl = 'http://localhost:3001/api/ticket/bookTicket';
+const getSeatApiUrl = 'http://localhost:3001/api/seat/getSeatMatch';
+let currentMatchId = null;
+let userId = 3;
+let seatData = [];
+
+const bookingModal = document.getElementById('bookingModal');
+
+bookingModal.addEventListener('show.bs.modal', async (event) => {
+  const button = event.relatedTarget;
+  currentMatchId = parseInt(button.dataset.matchId, 10);
+  seatsContainer.innerHTML = '';
+  selectedSeats = [];
+  totalPrice = 0;
+  updateBookingDetails();
+  await loadSeats();
+});
+
+async function loadSeats() {
+  try {
+    const url = `${getSeatApiUrl}?match_id=${currentMatchId}`; // Construct URL with query parameter
+    const response = await fetch(url, {
+      method: 'GET', // Correct method
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message || `Error fetching seat data: ${response.status} ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    seatData = processSeatData(data.result);
+    createSeatMap();
+  } catch (error) {
+    console.error("Error:", error);
+    alert(`Error loading seats: ${error.message}`);
+  }
+}
+
+function processSeatData(seatDataFromApi) {
+    //This part remains unchanged
+    const seatMap = {};
+    seatDataFromApi.forEach(seat => {
+        const row = seat.seat_number.substring(0, 1);
+        if (!seatMap[row]) seatMap[row] = [];
+        seatMap[row].push({
+            seat_id: seat.seat_id,
+            seat_number: seat.seat_number,
+            available: seat.status === 'Available'
+        });
+    });
+    return Object.values(seatMap).map(row => ({
+        row: row[0].seat_number.substring(0,1),
+        seats: row
+    }));
+}
+
+
+function createSeatMap() {
+  if (!seatData || seatData.length === 0) {
+    seatsContainer.innerHTML = '<p>No seat data available.</p>';
+    return;
+  }
+
+  seatData.forEach(row => {
+    const rowDiv = document.createElement('div');
+    rowDiv.classList.add('seat-row');
+    row.seats.forEach(seat => {
+      const seatDiv = createSeatElement(seat);
+      rowDiv.appendChild(seatDiv);
+    });
+    seatsContainer.appendChild(rowDiv);
+  });
+}
+
+function createSeatElement(seat) {
+  const seatDiv = document.createElement('div');
+  seatDiv.classList.add('seat', seat.available ? 'available' : 'unavailable');
+  seatDiv.dataset.seatId = seat.seat_id;
+  seatDiv.textContent = seat.seat_number;
+  seatDiv.addEventListener('click', handleSeatClick);
+  return seatDiv;
+}
+
+function handleSeatClick(event) {
+  const seat = event.target;
+  if (seat.classList.contains('unavailable')) return;
+
+  const seatId = parseInt(seat.dataset.seatId, 10);
+
+  const index = selectedSeats.indexOf(seatId);
+  if (index > -1) {
+    seat.classList.remove('selected');
+    selectedSeats.splice(index, 1);
+    totalPrice -= seatPrice;
+  } else {
+    seat.classList.add('selected');
+    selectedSeats.push(seatId);
+    totalPrice += seatPrice;
+  }
+  updateBookingDetails();
+}
+
+function updateBookingDetails() {
+  selectedSeatsEl.textContent = selectedSeats.join(', ');
+  totalPriceEl.textContent = totalPrice.toLocaleString(); // Format number with commas
+  bookButton.disabled = selectedSeats.length === 0;
+}
+
+bookButton.addEventListener('click', async () => {
+  if (selectedSeats.length === 0) {
+    alert("Please select seats!");
+    return;
+  }
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        match_id: currentMatchId,
+        seat_ids: selectedSeats,
+        user_id: userId,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message || `Booking failed: ${response.status} ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    alert("Booking successful!");
+    location.reload();
+  } catch (error) {
+    alert(`Error: ${error.message}`);
+  }
+});
+</script>
+  <!-- <script>
     const seatsContainer = document.querySelector('.seats');
     const selectedSeatsEl = document.getElementById('selected-seats');
     const totalPriceEl = document.getElementById('total-price');
@@ -330,9 +482,7 @@
     let currentMatchId = null;
     let userId = 3;
     let seatData = [];
-    
-    // **ĐIỀU CHỈNH DỮ LIỆU NÀY CHO PHÙ HỢP VỚI BACKEND CỦA BẠN**
-    // Bổ sung seat_id cho mỗi ghế
+   
     const seatDataByMatch = {
       1: [
         { row: 'A', seats: Array.from({length: 11}, (_, i) => ({ available: true, seat_id: i + 1 })) },
@@ -471,7 +621,7 @@
         seatsContainer.querySelectorAll('.selected').forEach(seat => seat.classList.remove('selected'));
     }
     
-    </script>
+    </script> -->
 
   <script>
     function loadHTML(id, url) {
