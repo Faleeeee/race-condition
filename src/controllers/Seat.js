@@ -2,7 +2,7 @@ const Seat = require('../Models/Seat');
 
 const SeatController = {
     checkSeat: async (req, res) => {
-        const { match_id } = req.body;
+        const { match_id } = req.params;
 
         try {
             const result = await Seat.checkSeat(match_id);

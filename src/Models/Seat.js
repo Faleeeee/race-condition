@@ -3,7 +3,6 @@ const db = require('../config/db');
 const Seat = {
     checkSeat: async (match_id) => {
         try {
-            // Lấy tất cả các ghế từ bảng seatStatus
             const chechStatusSeat = `
                 SELECT seatStatus.*, seat.seat_number 
                 FROM seatStatus 
