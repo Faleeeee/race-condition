@@ -87,17 +87,16 @@
                     >
                   </li>
                   <li>
-                    <a
-                      href="pages/booking.html"
-                      >Booking</a
-                    >
+                    <a href="pages/booking.html">Booking</a>
                   </li>
                   <li class="dropdown">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link user-menu">
                       <span class="icon-user"></span>
+                      <span class="user-email">Guest</span>
+                      <!-- Hiển thị email hoặc "Guest" -->
                     </a>
                     <ul class="dropdown-menu">
-                      <li>
+                      <li id="loginOption">
                         <a
                           href="pages/login.html"
                           class="nav-link"
@@ -105,12 +104,17 @@
                           >Login</a
                         >
                       </li>
-                      <li>
+                      <li id="registerOption">
                         <a
                           href="pages/register.html"
                           class="nav-link"
                           data-page="pages/register.html"
                           >Register</a
+                        >
+                      </li>
+                      <li id="logoutOption" style="display: none">
+                        <a href="#" class="nav-link" onclick="handleLogout()"
+                          >Logout</a
                         >
                       </li>
                     </ul>
@@ -130,4 +134,3 @@
     </div>
   </body>
 </html>
-
