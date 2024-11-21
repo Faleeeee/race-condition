@@ -7,12 +7,12 @@ body {
   font-size: 16px;
 }
 .modal {
-  display: none; 
+  display: none;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
 }
 
@@ -40,7 +40,6 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
-
 
 ::-moz-selection {
   background: #000;

@@ -1,6 +1,7 @@
 const apiUrl = "http://localhost:3001/api/auth";
 
 async function handleRegisterForm(event) {
+  event.preventDefault();
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -15,7 +16,7 @@ async function handleRegisterForm(event) {
 
     if (response.ok) {
       alert("Registration successful!");
-      loadHTML("home", "partials/login.html");
+      window.location.href = "login.html";
     } else {
       const errorData = await response.json();
       alert("Registration failed: " + (errorData.message || "Unknown error"));
@@ -27,6 +28,7 @@ async function handleRegisterForm(event) {
 }
 
 async function handleLoginForm(event) {
+  event.preventDefault();
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
@@ -38,9 +40,11 @@ async function handleLoginForm(event) {
     });
 
     if (response.ok) {
+      const data = await response.json();
       alert("Login successful!");
+      localStorage.setItem("userId", data.user_id);
       localStorage.setItem("userEmail", email);
-      loadHTML("home", "partials/home.html");
+      window.location.href = "index.html";
       updateUserHeader(email);
     } else {
       const errorData = await response.json();
@@ -56,4 +60,14 @@ function handleLogout() {
   localStorage.removeItem("userEmail");
   updateUserHeader(null);
   alert("Logged out successfully!");
+}
+
+const errorMessage = document.getElementById("errorMessage");
+errorMessage.innerText = "An error occurred. Please try again later.";
+if (response.status === 401) {
+  alert("Invalid credentials");
+} else if (response.status === 500) {
+  alert("Server error. Please try again later.");
+} else {
+  alert("Unknown error occurred.");
 }
